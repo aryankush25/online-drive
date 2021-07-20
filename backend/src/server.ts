@@ -1,28 +1,28 @@
-import Fastify, { FastifyInstance } from 'fastify'
-import 'reflect-metadata'
+import Fastify, { FastifyInstance } from 'fastify';
+import 'reflect-metadata';
 
-import db, { DBInterface } from './plugins/db'
-import { registerUserRoutes } from './routes/user'
+import db, { DBInterface } from './plugins/db';
+import { registerUserRoutes } from './routes/user';
 
 export interface FastifyInstanceExtended extends FastifyInstance {
-  db: DBInterface
+  db: DBInterface;
 }
 
 const createServer = () => {
-  const server: FastifyInstance = Fastify({ logger: true })
+  const server: FastifyInstance = Fastify({ logger: true });
 
-  server.register(db)
+  server.register(db);
 
   // Server check
   server.get('/ping', async (request, reply) => {
-    return { pong: 'it worked!' }
-  })
+    return { pong: 'it worked!' };
+  });
 
-  const extendedServer: any = server
+  const extendedServer: any = server;
 
-  registerUserRoutes(extendedServer)
+  registerUserRoutes(extendedServer);
 
-  return server
-}
+  return server;
+};
 
-export default createServer
+export default createServer;
