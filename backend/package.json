@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "fastify": "^3.14.2",
     "fastify-cli": "^2.9.1",
+    "fastify-cors": "^6.0.2",
     "fastify-plugin": "^3.0.0",
     "pg": "^8.5.1",
     "ramda": "^0.27.1",

@@ -1,18 +1,16 @@
-import { takeLatest, delay, put } from 'redux-saga/effects';
+import { takeLatest, delay, put, call } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import actionTypes from '../actionTypes';
 import { requestUserSuccess, requestUserFailure } from '../actions/userActions';
-import {
-  setLocalStorageTokens,
-  clearLocalStorage
-} from '../../utils/tokensHelper';
+import { setLocalStorageTokens, clearLocalStorage } from '../../utils/tokensHelper';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../../utils/routesConstants';
 import { navigateTo } from '../../utils/history';
+import { loginUsers } from '../../services/authServices';
 
 interface FetchUserActionType {
   type: String;
   payload: {
-    username: string;
+    email: string;
     password: string;
   };
 }
@@ -20,30 +18,21 @@ interface FetchUserActionType {
 function* fetchUserAsync(action: FetchUserActionType) {
   try {
     const {
-      payload: { username, password }
+      payload: { email, password },
     } = action;
 
-    console.log({ username, password });
+    const data = yield call(loginUsers, email, password);
 
-    // Do api call here
-
-    const data = {
-      username: username,
-      accessToken: 'access-token-from-server',
-      refreshToken: 'refresh-token-from-server'
-    };
+    console.log('#### response', data);
 
     setLocalStorageTokens({
-      username: data.username,
-      accessToken: data.accessToken,
-      refreshToken: data.refreshToken
+      email: data.email,
+      accessToken: data.id,
     });
 
     navigateTo(HOME_ROUTE);
 
-    yield put(
-      requestUserSuccess(data.username, data.accessToken, data.refreshToken)
-    );
+    yield put(requestUserSuccess(data.email, data.accessToken));
 
     toast.success('Logged In Successfully');
   } catch (error) {
@@ -69,7 +58,4 @@ export function* logout() {
   }
 }
 
-export default [
-  takeLatest(actionTypes.USER_REQUEST, fetchUserAsync),
-  takeLatest(actionTypes.LOGOUT, logout)
-];
+export default [takeLatest(actionTypes.USER_REQUEST, fetchUserAsync), takeLatest(actionTypes.LOGOUT, logout)];

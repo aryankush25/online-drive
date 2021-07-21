@@ -1,24 +1,19 @@
 import actionTypes from '../actionTypes';
 
-export const requestUserRequest = (username: string, password: string) => {
+export const requestUserRequest = (email: string, password: string) => {
   return {
     type: actionTypes.USER_REQUEST,
-    payload: { username, password }
+    payload: { email, password },
   };
 };
 
-export const requestUserSuccess = (
-  username: string,
-  accessToken: string,
-  refreshToken: string
-) => {
+export const requestUserSuccess = (email: string, accessToken: string) => {
   return {
     type: actionTypes.USER_SUCCESS,
     payload: {
-      username,
+      email,
       accessToken,
-      refreshToken
-    }
+    },
   };
 };
 
@@ -28,6 +23,6 @@ export const requestUserFailure = () => {
 
 export const startLogout = () => {
   return {
-    type: actionTypes.LOGOUT
+    type: actionTypes.LOGOUT,
   };
 };

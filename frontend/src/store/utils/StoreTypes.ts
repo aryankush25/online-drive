@@ -1,9 +1,8 @@
 import { RouterState } from 'connected-react-router';
 
 export interface UserDataTypes {
-  username: string;
+  email: string;
   accessToken: string;
-  refreshToken: string;
 }
 
 export interface UserDataReducerTypes {

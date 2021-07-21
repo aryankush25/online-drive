@@ -1,19 +1,13 @@
 import React, { ReactNode } from 'react';
 import _ from 'lodash';
-import {
-  Route,
-  Switch,
-  Redirect,
-  withRouter,
-  RouteComponentProps
-} from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import Landing from './Landing';
-import Login from './Login';
+import LoginSignUp from './LoginSignUp';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import { isTokensPresentLocalStorage } from '../utils/tokensHelper';
-import { ROOT_ROUTE, LOGIN_ROUTE, HOME_ROUTE } from '../utils/routesConstants';
+import { ROOT_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, HOME_ROUTE } from '../utils/routesConstants';
 
 interface RouteConfigProps {
   path: string | string[];
@@ -28,20 +22,20 @@ const routesConfig = {
     path: ROOT_ROUTE,
     component: Landing,
     exact: true,
-    privateRoute: false
+    privateRoute: false,
   },
-  login: {
-    path: LOGIN_ROUTE,
-    component: Login,
+  loginSignUp: {
+    path: [LOGIN_ROUTE, REGISTER_ROUTE],
+    component: LoginSignUp,
     exact: true,
-    privateRoute: false
+    privateRoute: false,
   },
   home: {
     path: HOME_ROUTE,
     component: Home,
     exact: true,
-    privateRoute: true
-  }
+    privateRoute: true,
+  },
 };
 
 interface ProtectedRoutesProps {
@@ -53,8 +47,7 @@ const ProtectedRoutes = (props: RouteComponentProps & ProtectedRoutesProps) => {
   const { component: Component, privateRoute, ...rest } = props;
   const isUserPresent = isTokensPresentLocalStorage();
 
-  const isValidRoute =
-    (privateRoute && isUserPresent) || !(privateRoute || isUserPresent);
+  const isValidRoute = (privateRoute && isUserPresent) || !(privateRoute || isUserPresent);
 
   if (isValidRoute) {
     return <Component {...rest} />;
@@ -77,13 +70,7 @@ const AppRoutes = () => {
             key={`${config.name}`}
             path={config.path}
             render={(props: RouteComponentProps) => {
-              return (
-                <ProtectedRoutes
-                  component={config.component}
-                  privateRoute={config.privateRoute}
-                  {...props}
-                />
-              );
+              return <ProtectedRoutes component={config.component} privateRoute={config.privateRoute} {...props} />;
             }}
           />
         );

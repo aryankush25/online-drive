@@ -13,6 +13,8 @@ const createServer = () => {
 
   server.register(db);
 
+  server.register(require('fastify-cors'));
+
   // Server check
   server.get('/ping', async (request, reply) => {
     return { pong: 'it worked!' };

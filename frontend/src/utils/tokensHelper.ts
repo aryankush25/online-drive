@@ -2,13 +2,12 @@ import _ from 'lodash';
 import { isNilOrEmpty, isPresent } from './helper';
 import { encryptWithAES, decryptWithAES } from './cryptoJsHelpers';
 
-export const MY_WEB_APP_TOKENS = 'my-web-app-tokens'; // Change name according to your project
-const TOKENS = ['username', 'accessToken', 'refreshToken'];
+export const MY_WEB_APP_TOKENS = 'my-online-drive-app-tokens';
+const TOKENS = ['email', 'accessToken'];
 
 export interface LocalStorageTokensProps {
-  username: string;
+  email: string;
   accessToken: string;
-  refreshToken: string;
 }
 
 export const setLocalStorageTokens = (tokens: LocalStorageTokensProps) => {
@@ -20,10 +19,7 @@ export const setLocalStorageTokens = (tokens: LocalStorageTokensProps) => {
     tokensToSet[`${token}`] = newTokensValues[`${token}`];
   });
 
-  localStorage.setItem(
-    MY_WEB_APP_TOKENS,
-    encryptWithAES(JSON.stringify(tokensToSet))
-  );
+  localStorage.setItem(MY_WEB_APP_TOKENS, encryptWithAES(JSON.stringify(tokensToSet)));
 };
 
 export const getLocalStorageTokens = () => {
@@ -44,9 +40,8 @@ export const getLocalStorageTokens = () => {
   }
 
   const returnTokens: LocalStorageTokensProps = {
-    username: '',
+    email: '',
     accessToken: '',
-    refreshToken: ''
   };
 
   TOKENS.forEach((token) => {

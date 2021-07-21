@@ -45,10 +45,7 @@ const getResponseBody = (contentType: string = '', response: Response) => {
   return response.text();
 };
 
-const handleSuccessResponse = async (
-  contentType: string,
-  response: Response
-) => {
+const handleSuccessResponse = async (contentType: string, response: Response) => {
   let returnObj = {};
 
   if (response.status === httpStatus.NO_CONTENT) {
@@ -64,10 +61,7 @@ const handleSuccessResponse = async (
   return returnObj;
 };
 
-const handleFailureResponse = async (
-  contentType: string,
-  response: Response
-) => {
+const handleFailureResponse = async (contentType: string, response: Response) => {
   let returnObj: Response = {};
   let errorDataFromServer = null;
 
@@ -90,10 +84,10 @@ const handleFailureResponse = async (
 const responseHandler = async (
   response: Response,
   resolve: { (value: unknown): void; (arg0: any): any },
-  reject: { (reason?: any): void; (arg0: any): any }
+  reject: { (reason?: any): void; (arg0: any): any },
 ) => {
   const metaData = {
-    responseStatus: response.status
+    responseStatus: response.status,
   };
   let returnObj: Response = {};
 
@@ -142,7 +136,7 @@ async function handleNetworkCall(apiObject) {
 
   fetchObject.headers = {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
 
   fetchObject.headers = apiObject.headers
@@ -177,8 +171,8 @@ async function handleNetworkCall(apiObject) {
       return responseHandler(fetchResult, resolve, reject);
     } catch (err) {
       return reject({
-        error: 'someThing Unexpected Happened',
-        msg: err.message || 'Something Went Wrong'
+        error: 'Something Unexpected Happened',
+        msg: err.message || 'Something Went Wrong',
       });
     }
   });
@@ -193,7 +187,7 @@ export function callApi(apiObject: {}) {
     } catch (err) {
       if (err.responseStatus === httpStatus.INTERNAL_SERVER_ERROR) {
         toast.error(
-          `An error has ocurred, please try again. If this error persists contact SKF administrator for more information.`
+          `An error has ocurred, please try again. If this error persists contact SKF administrator for more information.`,
         );
       }
 
@@ -212,7 +206,7 @@ export function callApiParallel(apiObject: {}) {
   const responseObj = {
     showError: false,
     message: '',
-    response: []
+    response: [],
   };
 
   return new Promise(async (resolve, reject) => {

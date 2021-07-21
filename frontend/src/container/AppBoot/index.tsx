@@ -14,11 +14,11 @@ function App() {
   return (
     <Provider store={ReduxStore}>
       <PersistGate loading={null} persistor={persistor}>
-        <div className="app-container">
-          <ConnectedRouter history={history}>
-            <AppRoutes />
-          </ConnectedRouter>
-        </div>
+        {/* <div className="app-container"> */}
+        <ConnectedRouter history={history}>
+          <AppRoutes />
+        </ConnectedRouter>
+        {/* </div> */}
 
         <ToastContainer
           autoClose={3000}

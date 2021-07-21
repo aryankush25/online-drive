@@ -7,15 +7,14 @@ export interface ActionType {
   payload: any;
 }
 
-const { username, accessToken, refreshToken } = getLocalStorageTokens();
+const { email, accessToken } = getLocalStorageTokens();
 
 const initialState: UserDataReducerTypes = {
   userData: {
-    username,
+    email,
     accessToken,
-    refreshToken
   },
-  loginSpinner: false
+  loginSpinner: false,
 };
 
 function userData(state = initialState, action: ActionType) {
@@ -25,27 +24,27 @@ function userData(state = initialState, action: ActionType) {
     case actionTypes.USER_REQUEST: {
       return {
         ...state,
-        loginSpinner: true
+        loginSpinner: true,
       };
     }
     case actionTypes.USER_SUCCESS: {
       return {
         ...state,
         userData: payload,
-        loginSpinner: false
+        loginSpinner: false,
       };
     }
     case actionTypes.USER_FAILURE: {
       return {
         ...state,
-        loginSpinner: false
+        loginSpinner: false,
       };
     }
     case actionTypes.LOGOUT:
       return initialState;
 
     default:
-      return { ...state };
+      return state;
   }
 }
 
