@@ -78,6 +78,7 @@
       padding: 12px 8px;
       position: relative;
       margin: 0 20px;
+      z-index: 1;
 
       .file-name {
         font-size: 12px;
@@ -99,6 +100,31 @@
 
     .file-container-selected {
       background-color: #e6f5ff;
+    }
+
+    .menu-container {
+      position: absolute;
+      top: 110px;
+      left: 70px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      padding: 10px 0;
+
+      .menu-option-container {
+        padding: 8px 20px;
+        width: 130px;
+        font-size: 14px;
+
+        .menu-option-danger-label {
+          color: red;
+        }
+      }
+
+      .menu-option-container:hover {
+        background-color: #e6f5ff;
+      }
     }
   }
 }

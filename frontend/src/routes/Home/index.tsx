@@ -1,18 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { isPresent } from '../../utils/helper';
 import Header from './Header';
-import fileIcon from '../../assets/images/file.png';
-import folderIcon from '../../assets/images/folder.png';
 import addNewIcon from '../../assets/images/add_new_button.png';
 import { sampleFiles } from '../../fakeData/filesData';
+import FileFolder from './FileFolder';
 
 import './styles.scss';
 
 const Home = () => {
   const [selected, setSelected] = useState('');
   const { id } = useParams<{ id: string }>();
-  const history = useHistory();
 
   const { data }: any = useMemo(() => {
     const foldersAndFiles = [];
@@ -58,32 +56,9 @@ const Home = () => {
           onClick={() => {
             setSelected('');
           }}>
-          {data.map((files: any) => {
-            return (
-              <div
-                key={files.id}
-                className={`file-container ${selected === files.id ? 'file-container-selected' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (selected === files.id && !files.isFile) {
-                    history.push(`/drive/${files.id}`);
-                  } else {
-                    setSelected(files.id);
-                  }
-                }}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log('#### e', e);
-                }}>
-                <img src={files.isFile ? fileIcon : folderIcon} alt="folder-file-icon" />
-
-                {files.isFile && <div className="file-extension">.jpg</div>}
-
-                <div className="file-name">{files.name}</div>
-              </div>
-            );
-          })}
+          {data.map((files: any) => (
+            <FileFolder key={files.id} files={files} selected={selected} setSelected={setSelected} />
+          ))}
 
           <div className="file-container">
             <img
