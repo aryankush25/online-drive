@@ -1,0 +1,104 @@
+.drive-main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .header-container {
+    padding: 0 10px;
+
+    .header-inner-container {
+      height: 50px;
+      width: 100%;
+      border-bottom: solid 1px hsl(0, 0%, 80%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .left-container {
+        display: flex;
+        align-items: center;
+
+        .action-button-icon {
+          height: 22px;
+          width: 22px;
+          padding: 2px;
+          background-color: gray;
+          border-radius: 50%;
+          margin-right: 20px;
+          cursor: pointer;
+        }
+
+        .action-button-icon-disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+
+        .breadcrumbs-container {
+          display: flex;
+          color: hsl(0, 0%, 80%);
+
+          .breadcrumb-container {
+            display: flex;
+
+            .breadcrumb-label {
+              cursor: pointer;
+            }
+
+            .breadcrumb-label-current {
+              cursor: default;
+              color: black;
+            }
+
+            .breadcrumb-divider {
+              padding: 0 5px;
+            }
+          }
+        }
+      }
+
+      .right-container {
+        width: 250px;
+      }
+    }
+  }
+
+  .files-container {
+    padding: 40px;
+    display: flex;
+    flex: 1;
+
+    .file-container {
+      height: 120px;
+      width: 100px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+      padding: 12px 8px;
+      position: relative;
+      margin: 0 20px;
+
+      .file-name {
+        font-size: 12px;
+      }
+
+      .file-extension {
+        position: absolute;
+        font-size: 12px;
+        color: white;
+        top: 60px;
+        left: 32px;
+      }
+
+      .add-new-icon {
+        cursor: pointer;
+        height: 100%;
+      }
+    }
+
+    .file-container-selected {
+      background-color: #e6f5ff;
+    }
+  }
+}
