@@ -3,9 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import AsyncSelect from 'react-select/async';
 
 import backIcon from '../../assets/images/arrow_back_black_48dp.svg';
-import { sampleFiles } from '../../fakeData/filesData';
 
-const getPath = (folder, pathArray = []) => {
+const getPath = (files, folder, pathArray = []) => {
   if (folder.parent === null) {
     pathArray.push({
       gotoRoute: 'root',
@@ -15,14 +14,14 @@ const getPath = (folder, pathArray = []) => {
     return pathArray;
   }
   const id = folder.parent;
-  const data = sampleFiles[id];
+  const data = files[id];
 
   pathArray.push({ gotoRoute: id, label: data.name });
 
-  return getPath(data, pathArray);
+  return getPath(files, data, pathArray);
 };
 
-const Header = () => {
+const Header = ({ files }) => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
 
@@ -31,9 +30,9 @@ const Header = () => {
     const breadCrumbsArray = [];
 
     if (!isOnRoot) {
-      const currentFolder = sampleFiles[id];
+      const currentFolder = files[id];
 
-      getPath(currentFolder, breadCrumbsArray);
+      getPath(files, currentFolder, breadCrumbsArray);
 
       breadCrumbsArray.reverse();
 
@@ -52,7 +51,7 @@ const Header = () => {
       isOnRoot,
       breadCrumbsArray,
     };
-  }, [id]);
+  }, [id, files]);
 
   const loadOptions = useCallback((inputValue: string, callback: Function) => {
     setTimeout(() => {

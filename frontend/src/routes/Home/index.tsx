@@ -9,6 +9,7 @@ import FileFolder from './FileFolder';
 import './styles.scss';
 
 const Home = () => {
+  const [files, setFiles] = useState(sampleFiles);
   const [selected, setSelected] = useState('');
   const { id } = useParams<{ id: string }>();
 
@@ -16,7 +17,7 @@ const Home = () => {
     const foldersAndFiles = [];
 
     if (id === 'root') {
-      for (const [key, value] of Object.entries(sampleFiles)) {
+      for (const [key, value] of Object.entries(files)) {
         if (!value.parent) {
           foldersAndFiles.push({
             id: key,
@@ -25,14 +26,14 @@ const Home = () => {
         }
       }
     } else {
-      const folderData = sampleFiles[id];
+      const folderData = files[id];
 
       if (isPresent(folderData) && !folderData.isFile) {
         return {
           data: (folderData.child || []).map((key: string) => {
             return {
               id: key,
-              ...sampleFiles[key],
+              ...files[key],
             };
           }),
         };
@@ -42,11 +43,11 @@ const Home = () => {
     }
 
     return { data: foldersAndFiles };
-  }, [id]);
+  }, [id, files]);
 
   return (
     <div className="drive-main-container">
-      <Header />
+      <Header files={files} />
 
       {data === null ? (
         <div className="files-container">Invalid folder path</div>
@@ -56,8 +57,8 @@ const Home = () => {
           onClick={() => {
             setSelected('');
           }}>
-          {data.map((files: any) => (
-            <FileFolder key={files.id} files={files} selected={selected} setSelected={setSelected} />
+          {data.map((file: any) => (
+            <FileFolder key={file.id} file={file} selected={selected} setSelected={setSelected} setFiles={setFiles} />
           ))}
 
           <div className="file-container">
