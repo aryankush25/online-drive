@@ -1,9 +1,9 @@
 import actionTypes from '../actionTypes';
 
-export const requestUserRequest = (email: string, password: string) => {
+export const requestUserRequest = (data: { name: string; email: string; password: string }, isRegister: boolean) => {
   return {
     type: actionTypes.USER_REQUEST,
-    payload: { email, password },
+    payload: { ...data, isRegister },
   };
 };
 

@@ -53,7 +53,7 @@ const ProtectedRoutes = (props: RouteComponentProps & ProtectedRoutesProps) => {
     return <Component {...rest} />;
   }
 
-  return <Redirect to={privateRoute ? LOGIN_ROUTE : '/drive/root'} />;
+  return <Redirect to={privateRoute ? REGISTER_ROUTE : '/drive/root'} />;
 };
 
 const AppRoutes = () => {

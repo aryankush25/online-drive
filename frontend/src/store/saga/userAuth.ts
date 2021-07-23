@@ -5,25 +5,31 @@ import { requestUserSuccess, requestUserFailure } from '../actions/userActions';
 import { setLocalStorageTokens, clearLocalStorage } from '../../utils/tokensHelper';
 import { LOGIN_ROUTE } from '../../utils/routesConstants';
 import { navigateTo } from '../../utils/history';
-import { loginUsers } from '../../services/authServices';
+import { loginUsers, signUpUsers } from '../../services/authServices';
 
 interface FetchUserActionType {
   type: String;
   payload: {
+    name: string;
     email: string;
     password: string;
+    isRegister: boolean;
   };
 }
 
 function* fetchUserAsync(action: FetchUserActionType) {
   try {
     const {
-      payload: { email, password },
+      payload: { name, email, password, isRegister },
     } = action;
 
-    const data = yield call(loginUsers, email, password);
+    let data: any = null;
 
-    console.log('#### response', data);
+    if (isRegister) {
+      data = yield call(signUpUsers, name, email, password);
+    } else {
+      data = yield call(loginUsers, email, password);
+    }
 
     setLocalStorageTokens({
       email: data.email,
@@ -37,6 +43,9 @@ function* fetchUserAsync(action: FetchUserActionType) {
     toast.success('Logged In Successfully');
   } catch (error) {
     console.log(error);
+
+    toast.success(error?.message || error?.error || error);
+
     yield put(requestUserFailure());
   }
 }

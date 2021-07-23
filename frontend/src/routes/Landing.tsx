@@ -1,14 +1,14 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { isTokensPresentLocalStorage } from '../utils/tokensHelper';
-import { LOGIN_ROUTE } from '../utils/routesConstants';
+import { REGISTER_ROUTE } from '../utils/routesConstants';
 
 const Landing = () => {
   if (isTokensPresentLocalStorage()) {
     return <Redirect to={'/drive/root'} />;
   }
 
-  return <Redirect to={LOGIN_ROUTE} />;
+  return <Redirect to={REGISTER_ROUTE} />;
 };
 
 export default Landing;

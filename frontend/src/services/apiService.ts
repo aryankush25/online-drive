@@ -146,8 +146,8 @@ async function handleNetworkCall(apiObject) {
     delete fetchObject.headers['Content-Type'];
     delete fetchObject.headers.Accept;
   }
-  body = apiObject.body;
-  // body = apiObject.body ? JSON.stringify(apiObject.body) : {};
+  // body = apiObject.body;
+  body = apiObject.body ? JSON.stringify(apiObject.body) : {};
 
   if (fetchObject.method === 'GET') {
     fetchObject.body = undefined;
@@ -185,11 +185,9 @@ export function callApi(apiObject: {}) {
 
       resolve(response);
     } catch (err) {
-      if (err.responseStatus === httpStatus.INTERNAL_SERVER_ERROR) {
-        toast.error(
-          `An error has ocurred, please try again. If this error persists contact SKF administrator for more information.`,
-        );
-      }
+      // if (err.responseStatus === httpStatus.INTERNAL_SERVER_ERROR) {
+      //   toast.error(`An error has ocurred, please try again.`);
+      // }
 
       if (err.responseStatus === httpStatus.UNAUTHORIZED) {
         toast.error('Login Token expired, please Login again.');
