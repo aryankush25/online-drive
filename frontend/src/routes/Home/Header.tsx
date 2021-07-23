@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import AsyncSelect from 'react-select/async';
 
 import backIcon from '../../assets/images/arrow_back_black_48dp.svg';
-import { isPresent } from '../../utils/helper';
+import { isNilOrEmpty, isPresent } from '../../utils/helper';
 
 const getPath = (files, folder, pathArray = []) => {
   if (folder.parent === null) {
@@ -22,7 +21,7 @@ const getPath = (files, folder, pathArray = []) => {
   return getPath(files, data, pathArray);
 };
 
-const Header = ({ files }) => {
+const Header = ({ files, search, searchCount = 0, setSearch }) => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
 
@@ -54,52 +53,59 @@ const Header = ({ files }) => {
     };
   }, [id, files]);
 
-  const loadOptions = useCallback((inputValue: string, callback: Function) => {
-    setTimeout(() => {
-      callback([]);
-    }, 1000);
-  }, []);
-
-  const handleInputChange = useCallback((newValue: string) => {
-    console.log('Hello');
-  }, []);
+  const handleInputChange = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+    },
+    [setSearch],
+  );
 
   return (
     <div className="header-container">
       <div className="header-inner-container">
-        <div className="left-container">
-          <div
-            className={`action-button-icon ${isOnRoot ? 'action-button-icon-disabled' : ''}`}
-            onClick={() => {
-              !isOnRoot && history.goBack();
-            }}>
-            <img src={backIcon} alt="back" width="100%" height="100%" />
-          </div>
-          <div className="breadcrumbs-container">
-            {breadCrumbsArray.map((data, index) => {
-              const current = data.gotoRoute === id;
+        {isNilOrEmpty(search) ? (
+          <div className="left-container">
+            <div
+              className={`action-button-icon ${isOnRoot ? 'action-button-icon-disabled' : ''}`}
+              onClick={() => {
+                !isOnRoot && history.goBack();
+              }}>
+              <img src={backIcon} alt="back" width="100%" height="100%" />
+            </div>
+            <div className="breadcrumbs-container">
+              {breadCrumbsArray.map((data, index) => {
+                const current = data.gotoRoute === id;
 
-              return (
-                <div key={data.gotoRoute} className="breadcrumb-container">
-                  <span
-                    className={`breadcrumb-label ${current ? 'breadcrumb-label-current' : ''}`}
-                    onClick={() => {
-                      if (!current) {
-                        history.push(`/drive/${data.gotoRoute}`);
-                      }
-                    }}>
-                    {data.label}
-                  </span>
+                return (
+                  <div key={data.gotoRoute} className="breadcrumb-container">
+                    <span
+                      className={`breadcrumb-label ${current ? 'breadcrumb-label-current' : ''}`}
+                      onClick={() => {
+                        if (!current) {
+                          history.push(`/drive/${data.gotoRoute}`);
+                        }
+                      }}>
+                      {data.label}
+                    </span>
 
-                  {!current && <div className="breadcrumb-divider">/</div>}
-                </div>
-              );
-            })}
+                    {!current && <div className="breadcrumb-divider">/</div>}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="left-container">Fount results: {searchCount} items</div>
+        )}
 
         <div className="right-container">
-          <AsyncSelect cacheOptions loadOptions={loadOptions} defaultOptions onInputChange={handleInputChange} />
+          <input
+            value={search}
+            className="search"
+            name="search"
+            placeholder="Search for anything"
+            onChange={handleInputChange}
+          />
         </div>
       </div>
     </div>

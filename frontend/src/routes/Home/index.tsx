@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { isPresent } from '../../utils/helper';
+import { isNilOrEmpty, isPresent } from '../../utils/helper';
 import Header from './Header';
 import addNewIcon from '../../assets/images/add_new_button.png';
 import { sampleFiles } from '../../fakeData/filesData';
@@ -13,6 +13,7 @@ const Home = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState(sampleFiles);
   const [selected, setSelected] = useState('');
+  const [search, setSearch] = useState('');
   const { id } = useParams<{ id: string }>();
 
   const { data }: any = useMemo(() => {
@@ -47,20 +48,44 @@ const Home = () => {
     return { data: foldersAndFiles };
   }, [id, files]);
 
+  const searchResult = useMemo(() => {
+    if (isNilOrEmpty(search)) return [];
+
+    const keys = Object.keys(files);
+    const searchResultLocal = [];
+
+    keys.forEach((id: any) => {
+      const file = files[id];
+
+      if (file.name.toLowerCase().includes(search)) {
+        searchResultLocal.push({ ...file, id });
+      }
+    });
+
+    return searchResultLocal;
+  }, [search, files]);
+
   return (
     <div className="drive-main-container">
-      <Header files={files} />
+      <Header files={files} search={search} searchCount={0} setSearch={setSearch} />
 
       {data === null ? (
         <div className="files-container">Invalid folder path</div>
-      ) : (
+      ) : isNilOrEmpty(search) ? (
         <div
           className="files-container"
           onClick={() => {
             setSelected('');
           }}>
           {data.map((file: any) => (
-            <FileFolder key={file.id} file={file} selected={selected} setSelected={setSelected} setFiles={setFiles} />
+            <FileFolder
+              key={file.id}
+              file={file}
+              selected={selected}
+              setSearch={setSearch}
+              setSelected={setSelected}
+              setFiles={setFiles}
+            />
           ))}
 
           <div className="file-container">
@@ -73,6 +98,23 @@ const Home = () => {
               }}
             />
           </div>
+        </div>
+      ) : (
+        <div
+          className="files-container"
+          onClick={() => {
+            setSelected('');
+          }}>
+          {searchResult.map((file: any) => (
+            <FileFolder
+              key={file.id}
+              file={file}
+              selected={selected}
+              setSearch={setSearch}
+              setSelected={setSelected}
+              setFiles={setFiles}
+            />
+          ))}
         </div>
       )}
 

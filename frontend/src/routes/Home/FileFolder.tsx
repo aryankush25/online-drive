@@ -10,7 +10,7 @@ const options = [
   { value: 'delete', label: 'Delete' },
 ];
 
-const FileFolder = ({ file, selected, setSelected, setFiles }) => {
+const FileFolder = ({ file, selected, setSelected, setSearch, setFiles }) => {
   const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -34,6 +34,7 @@ const FileFolder = ({ file, selected, setSelected, setFiles }) => {
         e.stopPropagation();
         if (selected === file.id && !file.isFile) {
           history.push(`/drive/${file.id}`);
+          setSearch('');
         } else {
           setSelected(file.id);
         }
