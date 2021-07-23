@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import actionTypes from '../actionTypes';
 import { requestUserSuccess, requestUserFailure } from '../actions/userActions';
 import { setLocalStorageTokens, clearLocalStorage } from '../../utils/tokensHelper';
-import { HOME_ROUTE, LOGIN_ROUTE } from '../../utils/routesConstants';
+import { LOGIN_ROUTE } from '../../utils/routesConstants';
 import { navigateTo } from '../../utils/history';
 import { loginUsers } from '../../services/authServices';
 
@@ -30,7 +30,7 @@ function* fetchUserAsync(action: FetchUserActionType) {
       accessToken: data.id,
     });
 
-    navigateTo(HOME_ROUTE);
+    navigateTo('/drive/root');
 
     yield put(requestUserSuccess(data.email, data.accessToken));
 

@@ -80,8 +80,6 @@ const FileFolder = ({ file, selected, setSelected, setFiles }) => {
                       return newFiles;
                     });
                   }
-
-                  console.log('#### option.value', option.value);
                 }}>
                 <span className={option.value === 'delete' ? 'menu-option-danger-label' : ''}>{option.label}</span>
               </div>

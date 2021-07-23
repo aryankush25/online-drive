@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import AsyncSelect from 'react-select/async';
 
 import backIcon from '../../assets/images/arrow_back_black_48dp.svg';
+import { isPresent } from '../../utils/helper';
 
 const getPath = (files, folder, pathArray = []) => {
   if (folder.parent === null) {
@@ -29,9 +30,9 @@ const Header = ({ files }) => {
     const isOnRoot = id === 'root';
     const breadCrumbsArray = [];
 
-    if (!isOnRoot) {
-      const currentFolder = files[id];
+    const currentFolder = files[id];
 
+    if (!isOnRoot && isPresent(currentFolder)) {
       getPath(files, currentFolder, breadCrumbsArray);
 
       breadCrumbsArray.reverse();
