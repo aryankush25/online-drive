@@ -7,8 +7,10 @@ import { sampleFiles } from '../../fakeData/filesData';
 import FileFolder from './FileFolder';
 
 import './styles.scss';
+import AddNewModal from './AddNewModal';
 
 const Home = () => {
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState(sampleFiles);
   const [selected, setSelected] = useState('');
   const { id } = useParams<{ id: string }>();
@@ -67,12 +69,14 @@ const Home = () => {
               src={addNewIcon}
               alt="add-new-icon"
               onClick={() => {
-                console.log('Add new');
+                setIsOpen(true);
               }}
             />
           </div>
         </div>
       )}
+
+      <AddNewModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} setFiles={setFiles} />
     </div>
   );
 };

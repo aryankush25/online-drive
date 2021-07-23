@@ -128,3 +128,62 @@
     }
   }
 }
+
+.modal-container {
+  // padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .modal-label,
+  .modal-radio-button {
+    margin-bottom: 20px;
+  }
+
+  .modal-radio-button {
+    border-radius: 8px;
+    overflow: hidden;
+    border: solid 1px hsl(0, 0%, 80%);
+
+    .radio-select {
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 0;
+      width: 60px;
+      background-color: white;
+    }
+
+    .radio-select-selected {
+      background-color: #4ab7ff;
+      color: white;
+    }
+  }
+
+  .modal-input-container {
+    margin-bottom: 14px;
+    width: 100%;
+
+    .fileName {
+      width: 100%;
+      padding: 6px 10px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+  }
+
+  .create-button {
+    width: 100%;
+    border: none;
+    color: white;
+    background-color: #4ab7ff;
+    padding: 8px;
+    border-radius: 8px;
+    width: 200px;
+    cursor: pointer;
+  }
+}
