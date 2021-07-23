@@ -13,5 +13,5 @@
 
 # misc
 .DS_Store
-*.env
+# *.env
 .nyc_output
